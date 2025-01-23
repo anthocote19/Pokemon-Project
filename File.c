@@ -7,7 +7,7 @@
 int save_game(const Player *player) {
     FILE *file = fopen(SAVE_FILE, "wb");
     if (!file) {
-        printf("Error: Unable to save the game.\n");
+        printf("Erreur: Impossible de charger la sauvegarde.\n");
         return 0;
     }
     fwrite(player, sizeof(Player), 1, file);

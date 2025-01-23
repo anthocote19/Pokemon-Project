@@ -9,19 +9,19 @@
 
 void display_menu() {
     printf("\n=== Supémon CLI Game ===\n");
-    printf("1. Into the Wild (Fight)\n");
-    printf("2. Shop\n");
-    printf("3. Supémon Center\n");
-    printf("4. Save & Exit\n");
-    printf("Enter your choice: ");
+    printf("1. Direction la nature (Combattre)\n");
+    printf("2. Magasin\n");
+    printf("3. Centre Supémon \n");
+    printf("4. Sauvegarder et quitter\n");
+    printf("Entrez votre choix: ");
 }
 
 int main() {
     Player player;
     if (load_game(&player)) {
-        printf("Game loaded successfully!\n");
+        printf("Jeux chargé avec succes!\n");
     } else {
-        printf("Welcome to Supémon! Enter your name: ");
+        printf("Bienvenue dans Supémon! Entrez votre nom: ");
         scanf("%s", player.name);
         initialize_player(&player);
     }
@@ -42,10 +42,10 @@ int main() {
                 break;
             case 4:
                 save_game(&player);
-                printf("Game saved. Goodbye!\n");
+                printf("Jeux sauvegardé. Au revoir!\n");
                 return 0;
             default:
-                printf("Invalid choice. Try again.\n");
+                printf("Choix invalide. Reessayez.\n");
         }
     }
     return 0;
