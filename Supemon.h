@@ -11,7 +11,7 @@ typedef struct {
     int evasion, base_evasion;
     int accuracy, base_accuracy;
     int speed;
-    char moves[MAX_MOVES][20]; // Names of moves
+    char moves[MAX_MOVES][20];
 } Supemon;
 
 Supemon create_supemon(const char *name, int hp, int attack, int defense, int evasion, int accuracy, int speed, const char *move1, const char *move2);
