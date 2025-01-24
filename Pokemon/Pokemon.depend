@@ -1,1 +1,50 @@
+# depslib dependency file v1.0
+1737573650 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\supemon.c
+	<stdio.h>
+	<string.h>
+	"supemon.h"
+
+1737571772 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\util.c
+	<stdlib.h>
+	<time.h>
+	"util.h"
+
+1737573586 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\util.h
+
+1737569465 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\file.c
+	<stdio.h>
+	<string.h>
+	"file.h"
+
+1737569449 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\file.h
+	"player.h"
+
+1737569246 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\player.h
+	"supemon.h"
+
+1737573634 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\supemon.h
+
+1737569193 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"player.h"
+	"supemon.h"
+	"battle.h"
+	"shop.h"
+	"file.h"
+
+1737569402 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\battle.h
+	"player.h"
+
+1737569361 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\shop.h
+	"player.h"
+
+1737569280 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\player.c
+	<stdio.h>
+	"player.h"
+
+1737569380 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\shop.c
+	<stdio.h>
+	"shop.h"
 
