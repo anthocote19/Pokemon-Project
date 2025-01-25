@@ -18,10 +18,9 @@ int save_game(const Player *player) {
 int load_game(Player *player) {
     FILE *file = fopen(SAVE_FILE, "rb");
     if (!file) {
-        return 0; // No save file found
+        return 0;
     }
     fread(player, sizeof(Player), 1, file);
     fclose(file);
     return 1;
 }
-
