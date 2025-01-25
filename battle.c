@@ -47,14 +47,14 @@ void battle(Player *player) {
                         player_supemon->hp = player_supemon->max_hp;
                     }
                     player->items[0]--;
-                    printf("Vous utilisez une Potion! Les HP de votre Supemon monte à %d/%d.\n", player_supemon->hp, player_supemon->max_hp);
+                    printf("Vous utilisez une Potion! Les HP de votre Supemon monte Ã  %d/%d.\n", player_supemon->hp, player_supemon->max_hp);
                 } else if (item_choice == 2 && player->items[1] > 0) {
                     player_supemon->hp += 10;
                     if (player_supemon->hp > player_supemon->max_hp) {
                         player_supemon->hp = player_supemon->max_hp;
                     }
                     player->items[1]--;
-                    printf("Vous utilisez une Super Potion! Les HP de votre Supemon monte à %d/%d.\n", player_supemon->hp, player_supemon->max_hp);
+                    printf("Vous utilisez une Super Potion! Les HP de votre Supemon monte Ã  %d/%d.\n", player_supemon->hp, player_supemon->max_hp);
                 } else {
                     printf("Choix d'objet invalide ou vous n'avez pas l'objet.\n");
                 }
@@ -91,4 +91,3 @@ void battle(Player *player) {
         printf("Vous gagnez %d Supcoins!\n", reward);
     }
 }
-
