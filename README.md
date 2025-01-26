@@ -1,6 +1,6 @@
 # Supémon CLI Game
 
-## 1. Introduction
+## 1. Introduction 
 **SUPINFO World CLI Gaming** asks you to develop a console (CLI) version of Pokémon in C, called **Supémon**.  
 
 ### Project Details
