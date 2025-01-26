@@ -3,7 +3,7 @@
 
 #define MAX_MOVES 2
 
-typedef struct {
+typedef struct { 
     char name[30];
     int hp, max_hp;
     int attack, base_attack;
