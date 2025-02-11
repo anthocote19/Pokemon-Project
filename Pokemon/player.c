@@ -4,7 +4,7 @@
 
 void initialize_player(Player *player) {
     player->supemonCount = 0;
-    player->supcoins = 100;
+    player->supcoins = 0;
     player->selected_supemon = 0;
 
     for (int i = 0; i < MAX_ITEMS; i++) {
@@ -73,15 +73,12 @@ void changerSupemon(Player *player) {
 }
 
 void heal_supemons(Player *player) {
-    if (player->supcoins >= 50) {
-        player->supcoins -= 50;
+    {
         for (int i = 0; i < MAX_SUPEMONS; i++) {
             if (player->supemons[i].hp > 0) {
                 player->supemons[i].hp = player->supemons[i].max_hp;
             }
         }
         printf("Tous vos Supemons ont ete soignes! Il vous reste %d Supcoins.\n", player->supcoins);
-    } else {
-        printf("Vous n'avez pas assez de Supcoins pour soigner vos Supemons. Il vous faut 50 Supcoins.\n");
     }
 }
