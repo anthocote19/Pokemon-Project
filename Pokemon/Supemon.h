@@ -8,6 +8,7 @@ typedef struct {
     int level;            // Niveau
     int hp;               // HP actuels
     int max_hp;           // HP maximum
+    int experience;       // Experience
     int attack;           // Attaque
     int defense;          // Défense
     int evasion;          // Évasion

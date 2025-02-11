@@ -1,44 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "player.h"
 #include "battle.h"
+#include "util.h"
 
-// Fonction pour capturer un Supemon
+int experienceRequired(int level) {
+    return 500 + (level - 1) * 1000;
+}
+
+int roundRandomly(float value) {
+    return (rand() % 2) ? ceil(value) : floor(value);
+}
+
+void levelUp(Supemon *supemon) {
+    supemon->level++;
+    printWithBorder("Niveau Up!");
+
+    printf("\n%s passe au niveau %d !\n", supemon->name, supemon->level);
+
+    supemon->max_hp = roundRandomly(supemon->max_hp * 1.3);
+    supemon->attack = roundRandomly(supemon->attack * 1.3);
+    supemon->defense = roundRandomly(supemon->defense * 1.3);
+    supemon->speed = roundRandomly(supemon->speed * 1.3);
+    supemon->hp = supemon->max_hp;
+
+    printWithBorder("Nouvelles Stats :");
+    printf("   HP: %d | ATK: %d | DEF: %d | SPD: %d\n", supemon->max_hp, supemon->attack, supemon->defense, supemon->speed);
+    printf("-------------------------------------------------\n");
+}
+
+void gainExperience(Supemon *supemon, int exp) {
+    printf("\n%s gagne %d XP !\n", supemon->name, exp);
+    supemon->experience += exp;
+
+    while (supemon->experience >= experienceRequired(supemon->level)) {
+        supemon->experience -= experienceRequired(supemon->level);
+        levelUp(supemon);
+    }
+}
+
 int tryCapture(int max_hp, int current_hp) {
-    if (max_hp <= 0) return 0; // Évite la division par zéro
-
+    if (max_hp <= 0) return 0;
     int capture_chance = ((max_hp - current_hp) * 100) / max_hp;
-    if (capture_chance < 0) capture_chance = 0;
-    if (capture_chance > 100) capture_chance = 100;
+    capture_chance = capture_chance < 0 ? 0 : capture_chance;
+    capture_chance = capture_chance > 100 ? 100 : capture_chance;
 
     return (rand() % 100) < capture_chance;
 }
 
-// Fonction pour exécuter un combat
 void combat(Player *player, Supemon *enemy) {
     Supemon *player_supemon = &player->supemons[player->selected_supemon];
     enemy->hp = enemy->max_hp;
 
     while (player_supemon->hp > 0 && enemy->hp > 0) {
-        printf("\nVotre Supemon: %s (HP: %d/%d)\n", player_supemon->name, player_supemon->hp, player_supemon->max_hp);
-        printf("Supemon Ennemi: %s (HP: %d/%d)\n", enemy->name, enemy->hp, enemy->max_hp);
+        printWithBorder("Combat en Cours");
 
-        printf("Choisissez une action:\n1. Attaquer\n2. Utiliser un Item\n3. Capturer\n4. Changer de Supemon\n5. Fuite\n");
+        printf("Votre Supemon: %s (HP: %d/%d)\n", player_supemon->name, player_supemon->hp, player_supemon->max_hp);
+        printf("Supemon Ennemi: %s (HP: %d/%d)\n", enemy->name, enemy->hp, enemy->max_hp);
+        printWithBorder("Choisissez une action:");
+
+        printf("\n1. Attaquer\n2. Utiliser un Item\n3. Capturer\n4. Changer de Supemon\n5. Fuite\n");
 
         int choice;
         if (scanf("%d", &choice) != 1) {
-            printf("Entrée invalide, réessayez.\n");
+            printf("\nEntree invalide, reessayez.\n");
             while (getchar() != '\n');
             continue;
         }
 
         switch (choice) {
-            case 1: { // Attaque
-                printf("Choisissez une attaque:\n1. %s\n2. %s\n", player_supemon->moves[0], player_supemon->moves[1]);
+            case 1: {
+                printf("\nChoisissez une attaque:\n1. %s\n2. %s\n", player_supemon->moves[0], player_supemon->moves[1]);
                 int move_choice;
                 if (scanf("%d", &move_choice) != 1) {
-                    printf("Entrée invalide.\n");
+                    printf("\nEntree invalide.\n");
                     while (getchar() != '\n');
                     continue;
                 }
@@ -47,65 +84,86 @@ void combat(Player *player, Supemon *enemy) {
                     int damage = (player_supemon->attack * (move_choice == 1 ? 3 : 2) / enemy->defense) + (rand() % 3);
                     enemy->hp -= damage;
                     if (enemy->hp < 0) enemy->hp = 0;
-                    printf("Votre Supemon utilise %s et inflige %d dégâts !\n", player_supemon->moves[move_choice - 1], damage);
+                    printf("Votre Supemon utilise %s et inflige %d degats !\n", player_supemon->moves[move_choice - 1], damage);
                 } else {
-                    printf("Choix invalide.\n");
+                    printf("\nChoix invalide.\n");
                 }
                 break;
             }
-            case 3: { // Capture
+            case 3: {
                 int captureAttempts = 0;
-                while (captureAttempts < 3) { // Maximum 3 essais
+                while (captureAttempts < 3) {
                     int captured = tryCapture(enemy->max_hp, enemy->hp);
                     if (captured) {
-                        addSupemonToPlayer(player, *enemy);
-                        printf("Supemon capturé avec succès !\n");
-                        return; // Quitte le combat
+                        char newName[50];
+                        printWithBorder("Capture Reussie!");
+                        printf("\nBravo ! Vous avez capture un %s ! Donnez-lui un nom : ", enemy->name);
+                        scanf("%49s", newName);
+
+                        Supemon capturedSupemon = *enemy;
+                        snprintf(capturedSupemon.name, sizeof(capturedSupemon.name), "%s", newName);
+
+                        addSupemonToPlayer(player, capturedSupemon);
+                        printf("%s a ete ajoute a votre equipe !\n", newName);
+                        return;
                     } else {
-                        printf("Le Supemon ennemi résiste !\n");
+                        printf("Le Supemon ennemi resiste !\n");
                         captureAttempts++;
                     }
                 }
-                printf("Le Supemon s'échappe après plusieurs essais !\n");
+                printWithBorder("Capture Echouee!");
+                printf("Le Supemon s'echappe apres plusieurs essais !\n");
                 break;
             }
-            case 5: { // Fuite
-                printf("DEBUG: Probabilité de fuite: %d%%\n", player_supemon->speed * 10);
+            case 4: {
+                changerSupemon(player);
+                player_supemon = &player->supemons[player->selected_supemon];
+                break;
+            }
+            case 5: {
+                printf("\nProbabilite de fuite: %d%%\n", player_supemon->speed * 10);
                 if (rand() % 100 < (player_supemon->speed * 10)) {
-                    printf("Vous vous enfuyez !\n");
+                    printWithBorder("Fuite Reussie");
+                    printf("Vous vous enfuyez avec succes !\n");
                     return;
                 } else {
-                    printf("Vous ne réussissez pas à fuir !\n");
+                    printWithBorder("Fuite Echouee");
+                    printf("Vous ne reussissez pas a fuir !\n");
                 }
                 break;
             }
+            default:
+                printWithBorder("Choix Invalide");
+                printf("Choix invalide. Essayez a nouveau.\n");
+                break;
         }
 
-        // Vérification si l'ennemi est KO avant qu'il n'attaque
         if (enemy->hp <= 0) {
-            printf("Le Supemon ennemi est KO ! Vous gagnez !\n");
+            printWithBorder("Victoire!");
+            printf("\nLe Supemon ennemi est KO ! Vous gagnez !\n");
             int reward = 100 + rand() % 401;
             player->supcoins += reward;
             printf("Vous gagnez %d Supcoins !\n", reward);
+
+            int exp_gain = 200 + rand() % 301;
+            gainExperience(player_supemon, exp_gain);
             break;
         }
 
-        // Tour de l'ennemi si toujours en vie
         if (enemy->hp > 0) {
             int damage = (enemy->attack * 2 / player_supemon->defense) + (rand() % 3);
             player_supemon->hp -= damage;
             if (player_supemon->hp < 0) player_supemon->hp = 0;
-            printf("%s utilise %s et inflige %d dégâts !\n", enemy->name, enemy->moves[0], damage);
+            printf("%s utilise %s et inflige %d degats !\n", enemy->name, enemy->moves[0], damage);
 
-            // 🔥 Vérification immédiate après l'attaque de l'ennemi
             if (player_supemon->hp <= 0) {
-                printf("Votre Supemon est KO ! Vous perdez la bataille.\n");
+                printWithBorder("Defaite");
+                printf("\nVotre Supemon est KO ! Vous perdez la bataille.\n");
 
-                // Correction : Empêche le Pokémon de disparaître après un combat perdu
-                player_supemon->hp = 1; // Le Pokémon survit avec 1 HP
-                printf("Votre Supemon est gravement blessé, mais il survit avec 1 HP !\n");
+                player_supemon->hp = 1;
+                printf("Votre Supemon est gravement blesse, mais il survit avec 1 HP !\n");
 
-                return; // Quitter le combat immédiatement
+                return;
             }
         }
     }

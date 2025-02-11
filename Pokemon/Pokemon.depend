@@ -4,12 +4,12 @@
 	<string.h>
 	"supemon.h"
 
-1737571772 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\util.c
+1739268647 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\util.c
 	<stdlib.h>
 	<time.h>
 	"util.h"
 
-1737573586 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\util.h
+1739268623 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\util.h
 
 1737722633 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\file.c
 	<stdio.h>
@@ -22,9 +22,9 @@
 1738931535 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\player.h
 	"supemon.h"
 
-1738932042 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\supemon.h
+1739267678 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\supemon.h
 
-1739201221 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\main.c
+1739269512 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\main.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -34,13 +34,13 @@
 	"shop.h"
 	"file.h"
 
-1739200648 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\battle.h
+1739265309 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\battle.h
 	"player.h"
 
 1737569361 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\shop.h
 	"player.h"
 
-1737970525 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\player.c
+1739269228 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\player.c
 	<stdio.h>
 	"player.h"
 
@@ -48,12 +48,14 @@
 	<stdio.h>
 	"shop.h"
 
-1739201154 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\battle.c
+1739269102 source:c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\battle.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
+	<math.h>
 	"player.h"
 	"battle.h"
+	"util.h"
 
 1738931661 c:\users\vidal\onedrive\bureau\tp supinfo\1cdec projet final\pokemon\capture.h
 

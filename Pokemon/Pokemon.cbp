@@ -49,10 +49,6 @@
 		<Unit filename="battle.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="capture.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="capture.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>

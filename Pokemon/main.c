@@ -8,20 +8,23 @@
 #include "file.h"
 
 void display_menu() {
-    printf("\n=== Supémon CLI Game ===\n");
-    printf("1. Direction la nature (Combattre)\n");
-    printf("2. Magasin\n");
-    printf("3. Centre Supémon \n");
-    printf("4. Sauvegarder et quitter\n");
-    printf("Entrez votre choix: ");
+    printf("=====================================\n");
+    printf("|      Supermon CLI Game           |\n");
+    printf("=====================================\n");
+    printf("| 1. Direction la nature (Combattre)|\n");
+    printf("| 2. Magasin                        |\n");
+    printf("| 3. Centre Supermon                |\n");
+    printf("| 4. Sauvegarder et quitter         |\n");
+    printf("=====================================\n");
+    printf("| Entrez votre choix :              |\n");
+    printf("=====================================\n");
 }
 
-// Fonction pour initialiser un combat
 void start_battle(Player *player) {
     Supemon enemy = {
         .name = "Wild Supemon",
-        .hp = 10,
-        .max_hp = 10,
+        .hp = 8,
+        .max_hp = 8,
         .attack = 1,
         .defense = 2,
         .speed = 1,
@@ -40,21 +43,21 @@ int main() {
         printf("Erreur : Impossible de lire le fichier audio.\n");
     }
 
-    printf("Voulez-vous charger la sauvegarde existante ? (o/n) : ");
+    printWithBorder("Voulez-vous charger la sauvegarde existante ? (o/n) : ");
     scanf(" %c", &loadChoice);
 
     if (loadChoice == 'o' || loadChoice == 'O') {
         if (load_game(&player)) {
             printf("Jeux charge avec succes!\n");
         } else {
-            printf("Aucune sauvegarde trouvée. Creons une nouvelle partie.\n");
-            printf("Bienvenue dans Supemon! Entrez votre nom: ");
+            printf("Aucune sauvegarde troueée. Creons une nouvelle partie.\n");
+            printWithBorder("Bienvenue dans Supemon! Entrez votre nom: ");
             scanf("%s", player.name);
             initialize_player(&player);
         }
     } else {
         printf("Creons une nouvelle partie.\n");
-        printf("Bienvenue dans Supemon! Entrez votre nom: ");
+        printWithBorder("Bienvenue dans Supemon! Entrez votre nom: ");
         scanf("%s", player.name);
         initialize_player(&player);
     }
@@ -65,7 +68,7 @@ int main() {
         scanf("%d", &choice);
         switch (choice) {
             case 1:
-                start_battle(&player); // ✅ Correction ici
+                start_battle(&player);
                 break;
             case 2:
                 shop(&player);
