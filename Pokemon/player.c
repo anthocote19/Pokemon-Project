@@ -24,17 +24,17 @@ void initialize_player(Player *player) {
 
     switch (choice) {
         case 1:
-            player->supemons[0] = create_supemon("Supmander", 10, 1, 1, 1, 2, 1, "Scratch", "Grawl");
+            player->supemons[0] = create_supemon("Supmander", 10, 1, 1, 1, 2, 1, "Griffure", "Grognement");
             break;
         case 2:
-            player->supemons[0] = create_supemon("Supasaur", 9, 1, 1, 3, 2, 2, "Pound", "Foliage");
+            player->supemons[0] = create_supemon("Supasaur", 9, 1, 1, 3, 2, 2, "Ecrasement", "Feuillage");
             break;
         case 3:
-            player->supemons[0] = create_supemon("Supirtle", 11, 1, 2, 2, 1, 2, "Pound", "Shell");
+            player->supemons[0] = create_supemon("Supirtle", 11, 1, 2, 2, 1, 2, "Ecrasement", "Coquille");
             break;
         default:
             printf("Choix invalide. Supmander selectionne par défaut.\n");
-            player->supemons[0] = create_supemon("Supmander", 10, 1, 1, 1, 2, 1, "Scratch", "Grawl");
+            player->supemons[0] = create_supemon("Supmander", 10, 1, 1, 1, 2, 1, "Griffure", "Grognement");
     }
     player->supemonCount = 1;
 }

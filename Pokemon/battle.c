@@ -11,7 +11,47 @@ int experienceRequired(int level) {
 }
 
 int roundRandomly(float value) {
-    return (rand() % 2) ? ceil(value) : floor(value);
+    int lower = (int)value;
+    float decimal = value - lower;
+    if (decimal == 0) return lower;
+    return (rand() % 2 == 0) ? lower : (lower + 1);
+}
+
+Supemon* choisirSupemon(Player *player);
+
+Supemon* choisirSupemon(Player *player) {
+    int choix;
+
+    while (1) {
+        printf("\nchoisissez le supemon a envoyer au combat :\n");
+
+        for (int i = 0; i < player->supemonCount; i++) {
+            Supemon *s = &player->supemons[i];
+            printf("%d. %s (niv %d) - hp: %d/%d\n", i + 1, s->name, s->level, s->hp, s->max_hp);
+        }
+
+        printf("\nentrez le numéro de votre supemon : ");
+        if (scanf("%d", &choix) != 1) {
+            printf("\nentree invalide\n");
+            while (getchar() != '\n');
+            continue;
+        }
+
+        if (choix < 1 || choix > player->supemonCount) {
+            printf("\nchoix invalide, essayez encore\n");
+            continue;
+        }
+
+        Supemon *choisi = &player->supemons[choix - 1];
+
+        if (choisi->hp <= 0) {
+            printf("\nce supemon est ko, choisissez-en un autre\n");
+            continue;
+        }
+
+        printf("\n%s entre en combat\n", choisi->name);
+        return choisi;
+    }
 }
 
 void levelUp(Supemon *supemon) {
@@ -27,7 +67,8 @@ void levelUp(Supemon *supemon) {
     supemon->hp = supemon->max_hp;
 
     printWithBorder("Nouvelles Stats :");
-    printf("   HP: %d | ATK: %d | DEF: %d | SPD: %d\n", supemon->max_hp, supemon->attack, supemon->defense, supemon->speed);
+    printf("   HP: %d | ATK: %d | DEF: %d | SPD: %d\n",
+           supemon->max_hp, supemon->attack, supemon->defense, supemon->speed);
     printf("-------------------------------------------------\n");
 }
 
@@ -59,8 +100,25 @@ void printSupemonStats(const char *name, const char *owner, int hp, int max_hp, 
     printf("------------------------------------\n");
 }
 
+void scaleEnemyStats(Supemon *enemy, int player_level) {
+    float scale_factor = 1.0f + (player_level - enemy->level) * 0.1f;
+
+    if (scale_factor < 0.5f) scale_factor = 0.5f;
+    if (scale_factor > 2.0f) scale_factor = 2.0f;
+
+    enemy->level = player_level;
+    enemy->max_hp = (int)(enemy->max_hp * scale_factor);
+    enemy->hp = enemy->max_hp;
+    enemy->attack = (int)(enemy->attack * scale_factor);
+    enemy->defense = (int)(enemy->defense * scale_factor);
+    enemy->accuracy = (int)(enemy->accuracy * scale_factor);
+    enemy->evasion = (int)(enemy->evasion * scale_factor);
+}
+
+
 void combat(Player *player, Supemon *enemy) {
-    Supemon *player_supemon = &player->supemons[player->selected_supemon];
+    Supemon *player_supemon = choisirSupemon(player);
+    scaleEnemyStats(enemy, player_supemon->level);
     enemy->hp = enemy->max_hp;
 
     while (player_supemon->hp > 0 && enemy->hp > 0) {
@@ -99,6 +157,71 @@ void combat(Player *player, Supemon *enemy) {
                 }
                 break;
             }
+
+            case 2: {
+                printf("\nInventaire des objets :\n");
+                printf("1. Potion (%d restants)\n", player->items[0]);
+                printf("2. Super Potion (%d restants)\n", player->items[1]);
+                printf("3. Bonbon Rare (%d restants)\n", player->items[2]);
+                printf("4. Retour\n");
+
+                int item_choice;
+                if (scanf("%d", &item_choice) != 1) {
+                    printf("\nEntrée invalide.\n");
+                    while (getchar() != '\n');
+                    continue;
+                }
+
+                switch (item_choice) {
+                    case 1:
+                        if (player->items[0] > 0) {
+                            player->items[0]--;
+                            player_supemon->hp += 20;
+                            if (player_supemon->hp > player_supemon->max_hp)
+                                player_supemon->hp = player_supemon->max_hp;
+                            printf("\nVous utilisez une potion. +20 HP !\n");
+                        } else {
+                            printf("\nVous n'avez plus de potions !\n");
+                        }
+                        break;
+
+                    case 2:
+                        if (player->items[1] > 0) {
+                            player->items[1]--;
+                            player_supemon->hp += 50;
+                            if (player_supemon->hp > player_supemon->max_hp)
+                                player_supemon->hp = player_supemon->max_hp;
+                            printf("\nVous utilisez une super potion. +50 HP !\n");
+                        } else {
+                            printf("\nVous n'avez plus de super potions !\n");
+                        }
+                        break;
+
+                    case 3:
+                        if (player->items[2] > 0) {
+                            player->items[2]--;
+                            player_supemon->level++;
+                            printf("\nVous utilisez un bonbon rare ! %s passe au niveau %d !\n",
+                                   player_supemon->name, player_supemon->level);
+
+                            continue;
+                        } else {
+                            printf("\nVous n'avez plus de bonbons rares !\n");
+                        }
+                        break;
+
+
+                    case 4:
+                        printf("\nVous décidez de ne pas utiliser d'objet.\n");
+                        continue;
+
+                    default:
+                        printf("\nChoix invalide.\n");
+                        break;
+                }
+                break;
+            }
+
             case 3: {
                 int captureAttempts = 0;
                 while (captureAttempts < 3) {

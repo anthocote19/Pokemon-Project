@@ -23,18 +23,19 @@ void display_menu() {
 void start_battle(Player *player) {
     Supemon enemy = {
         .name = "Wild Supemon",
-        .hp = 8,
-        .max_hp = 8,
-        .attack = 1,
-        .defense = 2,
+        .hp = 10,
+        .max_hp = 10,
+        .attack = 2,
+        .defense = 1,
         .speed = 1,
-        .moves = {"Charge", "Tackle"}
+        .moves = {"Charge", "Tacle"}
     };
 
     combat(player, &enemy);
 }
 
 int main() {
+    srand(time(NULL));
     Player player;
     char loadChoice;
 

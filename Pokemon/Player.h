@@ -14,6 +14,7 @@ typedef struct {
     int items[MAX_ITEMS];
     int supemonCount;
     int num_supemons;
+    int level;
 } Player;
 
 void initialize_player(Player *player);
