@@ -33,7 +33,7 @@ void initialize_player(Player *player) {
             player->supemons[0] = create_supemon("Supirtle", 11, 1, 2, 2, 1, 2, "Ecrasement", "Coquille");
             break;
         default:
-            printf("Choix invalide. Supmander selectionne par défaut.\n");
+            printf("Choix invalide. Supmander selectionne par defaut.\n");
             player->supemons[0] = create_supemon("Supmander", 10, 1, 1, 1, 2, 1, "Griffure", "Grognement");
     }
     player->supemonCount = 1;

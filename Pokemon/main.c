@@ -25,7 +25,7 @@ void start_battle(Player *player) {
         .name = "Wild Supemon",
         .hp = 10,
         .max_hp = 10,
-        .attack = 2,
+        .attack = 1,
         .defense = 1,
         .speed = 1,
         .moves = {"Charge", "Tacle"}

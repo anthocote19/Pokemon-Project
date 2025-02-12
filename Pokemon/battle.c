@@ -54,6 +54,25 @@ Supemon* choisirSupemon(Player *player) {
     }
 }
 
+void appliquerEffetMouvement(Supemon *supemon, const char *mouvement) {
+    if (strcmp(mouvement, "Grognement") == 0) {
+        supemon->attack += 1;  // Augmente l'attaque de 1
+        printf("%s utilise Grognement. Son attaque augmente de 1.\n", supemon->name);
+    }
+    else if (strcmp(mouvement, "Feuillage") == 0) {
+        supemon->evasion += 1;  // Augmente l'évasion de 1
+        printf("%s utilise Feuillage. Son évasion augmente de 1.\n", supemon->name);
+    }
+    else if (strcmp(mouvement, "Coquille") == 0) {
+        supemon->defense += 1;  // Augmente la défense de 1
+        printf("%s utilise Coquille. Sa défense augmente de 1.\n", supemon->name);
+    }
+    else {
+        printf("Mouvement inconnu.\n");
+    }
+}
+
+
 void levelUp(Supemon *supemon) {
     supemon->level++;
     printWithBorder("Niveau Up!");
@@ -139,20 +158,46 @@ void combat(Player *player, Supemon *enemy) {
 
         switch (choice) {
             case 1: {
-                printf("\nChoisissez une attaque:\n1. %s\n2. %s\n", player_supemon->moves[0], player_supemon->moves[1]);
+                // Choisir une attaque (de dégâts ou de statut)
+                printf("\nChoisissez une attaque:\n1. %s (Dégâts)\n2. %s (Augmenter les stats)\n",
+                       player_supemon->moves[0], player_supemon->moves[1]);
                 int move_choice;
                 if (scanf("%d", &move_choice) != 1) {
-                    printf("\nEntree invalide.\n");
+                    printf("\nEntrée invalide.\n");
                     while (getchar() != '\n');
                     continue;
                 }
 
-                if (move_choice == 1 || move_choice == 2) {
-                    int damage = (player_supemon->attack * (move_choice == 1 ? 3 : 2) / enemy->defense) + (rand() % 3);
+                if (move_choice == 1) {
+                    // Attaque de dégâts
+                    int damage = (player_supemon->attack * 3 / enemy->defense) + (rand() % 3);
                     enemy->hp -= damage;
                     if (enemy->hp < 0) enemy->hp = 0;
-                    printf("\n%s utilise %s et inflige %d degats !\n", player_supemon->name, player_supemon->moves[move_choice - 1], damage);
-                } else {
+                    printf("\n%s utilise %s et inflige %d dégâts !\n",
+                           player_supemon->name, player_supemon->moves[0], damage);
+                }
+                else if (move_choice == 2) {
+                    // Attaque qui augmente les stats
+                    if (strcmp(player_supemon->moves[1], "Grognement") == 0) {
+                        // Augmenter l'attaque
+                        player_supemon->attack += 1;
+                        printf("%s utilise Grognement. Son attaque augmente de 1.\n", player_supemon->name);
+                    }
+                    else if (strcmp(player_supemon->moves[1], "Feuillage") == 0) {
+                        // Augmenter l'évasion
+                        player_supemon->evasion += 1;
+                        printf("%s utilise Feuillage. Son évasion augmente de 1.\n", player_supemon->name);
+                    }
+                    else if (strcmp(player_supemon->moves[1], "Coquille") == 0) {
+                        // Augmenter la défense
+                        player_supemon->defense += 1;
+                        printf("%s utilise Coquille. Sa défense augmente de 1.\n", player_supemon->name);
+                    }
+                    else {
+                        printf("\nAttaque inconnue.\n");
+                    }
+                }
+                else {
                     printf("\nChoix invalide.\n");
                 }
                 break;
